@@ -18,9 +18,9 @@ MongoClient.connect('mongodb://localhost:27017', function(err, client) {
   console.log('Connected to database');
 
   server.post('/api/reviews', function(req, res){
-  const quotesCollection = db.collection('reviews');
+  const reviewCollection = db.collection('reviews');
   const reviewToSave = req.body;
-  quotesCollection.save(reviewToSave, function(err, result){
+  reviewCollection.save(reviewToSave, function(err, result){
     if (err) {
       console.log(err);
       res.status(500)
@@ -32,6 +32,33 @@ MongoClient.connect('mongodb://localhost:27017', function(err, client) {
     res.json(result.ops[0]);
   });
 });
+
+server.get('/api/reviews', function(req,res){
+  const reviewCollection = db.collection('reviews');
+  reviewCollection.find().toArray(function(err, allReviews){
+    if(err){
+      console.log(err);
+      res.status(500);
+      res.send();
+    }
+
+    res.json(allReviews);
+  })
+})
+
+server.delete("/api/reviews", function(req,res){
+  const reviewCollection = db.collection("reviews");
+  const filterObject = {};
+  reviewCollection.deleteMany(filterObject, function(err, result){
+    if(err){
+      console.log(err);
+      res.status(500);
+      res.send();
+    }
+    res.status(204);
+    res.send();
+  });
+})
 
 server.listen(3000, function(){
   console.log("Listening on port 3000");
