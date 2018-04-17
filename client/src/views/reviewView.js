@@ -1,23 +1,23 @@
-var QuoteView = function(){
-  this.quotes = [];
+var ReviewView = function(){
+  this.reviews = [];
 }
 
-QuoteView.prototype.addQuote = function(quote) {
+ReviewView.prototype.addQuote = function(quote) {
   this.quotes.push(quote);
   this.render(quote);
 }
 
-QuoteView.prototype.clear = function(quote) {
+ReviewView.prototype.clear = function(quote) {
   this.quotes = [];
   const ul = document.querySelector('#quotes');
   ul.innerHTML = '';
 }
 
-QuoteView.prototype.render = function(quote){
-    const ul = document.querySelector('#quotes');
+ReviewView.prototype.render = function(review){
+    const ul = document.querySelector('#reviews');
     const li = document.createElement('li');
     const text = document.createElement('p');
-    text.innerText = `${quote.name} - "${quote.quote}"`;
+    text.innerText = `${review.name} - "${review.hotel}"`;
     li.appendChild(text);
     ul.appendChild(li);
 }
