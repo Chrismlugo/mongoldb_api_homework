@@ -13,10 +13,27 @@ MongoClient.connect('mongodb://localhost:27017', function(err, client) {
     console.log(err);
     return;
   }
-  const db = client.db("star_wars");
+  const db = client.db("hotel_reviews");
 
   console.log('Connected to database');
+
+  server.post('/api/reviews', function(req, res){
+  const quotesCollection = db.collection('reviews');
+  const reviewToSave = req.body;
+  quotesCollection.save(reviewToSave, function(err, result){
+    if (err) {
+      console.log(err);
+      res.status(500)
+      res.send();
+    }
+
+    console.log('saved to database');
+    res.status(201);
+    res.json(result.ops[0]);
+  });
+});
 
 server.listen(3000, function(){
   console.log("Listening on port 3000");
 });
+})
